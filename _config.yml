@@ -74,7 +74,7 @@ footer:
       icon: "fab fa-fw fa-github"
       url: "https://github.com/"
     - label: "Linkedin"
-      icon: "fab fa-fw fa-Linkedin"
+      icon: "fab fa-fw fa-linkedin"
       url: "https://linkedin.com/"
 
 defaults:
