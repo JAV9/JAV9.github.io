@@ -87,7 +87,6 @@ defaults:
       comments: true
       share: true
       related: true
-      head_custom: true
   # _pages
   - scope:
       path: "_pages"
@@ -95,7 +94,6 @@ defaults:
     values:
       layout: single
       author_profile: true
-      head_custom: true
 
 category_archive:
   type: liquid
