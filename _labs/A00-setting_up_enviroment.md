@@ -1,9 +1,18 @@
 ---
-title: "Setting up the enviroment"
-date: 2025-07-23
-categories:
+title: "Lab 0. Setting up the enviroment"
+layout: single
+collection: labs
+classes: wide
+author_profile: false
+toc: false
+toc_sticky: false
+sidebar:
+  nav: "labs"
+categories: 
   - tutorial
-tags:
+  - enviroment
+  - setup
+tags: 
   - virtualbox
   - ubuntu
   - virtual machine

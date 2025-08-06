@@ -82,9 +82,9 @@ defaults:
       type: posts
     values:
       layout: single
-      author_profile: true
-      read_time: true
-      comments: true
+      author_profile: false
+      read_time: false
+      comments: false
       share: true
       related: true
   # _pages
@@ -94,6 +94,16 @@ defaults:
     values:
       layout: single
       author_profile: true
+ # labs collection
+  - scope:
+      path: ""
+      type: labs
+    values:
+      layout: single
+      classes: wide
+      author_profile: false
+      toc: true
+      toc_sticky: true
 
 category_archive:
   type: liquid
@@ -101,3 +111,8 @@ category_archive:
 tag_archive:
   type: liquid
   path: /tags/
+
+collections:
+  labs:
+    output: true
+    permalink: /labs/:name/

@@ -1,9 +1,12 @@
 main:
-  - title: "Posts"
-    url: /posts/
-  - title: "Categories"
-    url: /categories/
-  - title: "Tags"
-    url: /tags/
+  - title: "Labs"
+    url: /labs/
   - title: "About"
     url: /about/
+labs:
+  - title: Custom Labs
+    children:
+      - title: "Lab 0. Setting up Environment"
+        url: /labs/a00-setting-up-enviroment/
+      - title: "Lab 1. Network Scanning"
+        url: /labs/a01-network-scanning/
