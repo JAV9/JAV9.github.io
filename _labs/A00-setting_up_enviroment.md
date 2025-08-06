@@ -9,10 +9,11 @@ toc_sticky: false
 sidebar:
   nav: "labs"
 categories: 
-  - tutorial
+  - custom-labs
   - enviroment
   - setup
 tags: 
+  - tutorial
   - virtualbox
   - ubuntu
   - virtual machine

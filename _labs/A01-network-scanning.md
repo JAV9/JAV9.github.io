@@ -9,9 +9,9 @@ sidebar:
   nav: "labs"
 collection: labs
 categories: 
-  - labs
+  - custom-labs
 tags: 
-  - environment-setup
+  - tutorial
   - nmap
 ---
 This lab depends on the [Lab 0. Environment setup](/labs/a00-setting-up-enviroment/) described earlier.
