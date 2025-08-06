@@ -1,5 +1,6 @@
 ---
 title: "Lab 0. Setting up the enviroment"
+excerpt: "In this post you can learn how to set up the enviroment for our custom labs."
 layout: single
 collection: labs
 classes: wide

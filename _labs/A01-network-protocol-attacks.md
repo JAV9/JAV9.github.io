@@ -1,5 +1,6 @@
 ---
 title: "Lab 1. Network protocol attacks"
+excerpt: "In this lab, you’ll learn how to do different network protocol attacks."
 layout: single
 classes: toc-right
 author_profile: false

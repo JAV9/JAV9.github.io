@@ -8,5 +8,5 @@ labs:
     children:
       - title: "Lab 0. Setting up Environment"
         url: /labs/a00-setting-up-enviroment/
-      - title: "Lab 1. Network Scanning"
-        url: /labs/a01-network-scanning/
+      - title: "Lab 1. Network Protocol Attacks"
+        url: /labs/a01-network-protocol-attacks/
