@@ -1,7 +1,7 @@
 ---
 title: "Lab 1. Network protocol attacks"
 layout: single
-classes: wide
+classes: toc-right
 author_profile: false
 toc: true
 toc_sticky: true
@@ -105,6 +105,3 @@ You should now see packets flowing *through* VM_2, even though VM_2 is not the i
 ### Service detection
 
 ## SO detection
-
-
-
