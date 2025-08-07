@@ -93,6 +93,13 @@ ip.addr == 192.168.0.1 && ip.addr == 192.168.0.3
 
 You should now see packets flowing *through* VM_2, even though VM_2 is not the intended destination.
 
+<details>
+  <summary>Click to view an example screenshot</summary>
+    <img src="/assets/images/a01-arpspoof.png" />
+</details>
+
+
+
 ## Network Layer
 
 ### ICMP/ping flood
