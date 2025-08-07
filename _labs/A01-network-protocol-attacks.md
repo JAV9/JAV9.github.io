@@ -94,9 +94,10 @@ ip.addr == 192.168.0.1 && ip.addr == 192.168.0.3
 You should now see packets flowing *through* VM_2, even though VM_2 is not the intended destination.
 
 <details>
-  <summary>Click to view an example screenshot</summary>
+  <summary>Example screenshot (click to expand)</summary>
     <img src="/assets/images/a01-arpspoof.png" />
 </details>
+
 
 ## Network Layer
 
@@ -141,9 +142,10 @@ sudo hping3 --icmp --flood 192.168.0.1
 > **Note:** For the attack to be effective, the attacker must have **more bandwidth** than the victim.
 
 <details>
-  <summary>Click to view an example screenshot</summary>
+  <summary>Example screenshot (click to expand)</summary>
     <img src="/assets/images/a01-icmp-flood.png" />
 </details>
+
 
 
 
@@ -174,9 +176,10 @@ sudo hping3 --icmp --flood --spoof 192.168.0.1 192.168.0.255
 > Multiple devices (reflectors) will respond to the spoofed ping, overwhelming the victim.
 
 <details>
-  <summary>Click to view an example screenshot</summary>
+  <summary>Example screenshot (click to expand)</summary>
     <img src="/assets/images/a01-smurf-attack.png" />
 </details>
+
 
 ## Transport Layer
 
@@ -258,12 +261,13 @@ sudo nft flush ruleset
 ```
 
 <details>
-  <summary>Click to view an example screenshot</summary>
+  <summary>Example screenshot (click to expand)</summary>
     <img src="/assets/images/a01-tcp-syn-flood-attack.png" />
     <p>
         After disabling SYN Cookies you should see that you can't connect the server.
     </p>
 </details>
+
 
 ## Network enum
 
