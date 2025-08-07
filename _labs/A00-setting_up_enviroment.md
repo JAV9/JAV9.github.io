@@ -64,7 +64,7 @@ sudo ip link set dev enp0s3 up
 sudo ip addr add 192.168.0.2/24 dev enp0s3
 ```
 
-VM_1
+VM_3
 
 ```bash
 sudo ip link set dev enp0s3 up
