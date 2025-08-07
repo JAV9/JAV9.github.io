@@ -98,8 +98,6 @@ You should now see packets flowing *through* VM_2, even though VM_2 is not the i
     <img src="/assets/images/a01-arpspoof.png" />
 </details>
 
-
-
 ## Network Layer
 
 ### ICMP/ping flood
