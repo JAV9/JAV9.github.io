@@ -11,7 +11,7 @@ sidebar:
   nav: "labs"
 categories: 
   - custom-labs
-  - enviroment
+  - environment
   - setup
 tags: 
   - tutorial
