@@ -1,5 +1,5 @@
 ---
-title: "Lab 0. Setting up the enviroment"
+title: "Lab 0. Setting up the environment"
 excerpt: "In this post you can learn how to set up the enviroment for our custom labs."
 layout: single
 collection: labs

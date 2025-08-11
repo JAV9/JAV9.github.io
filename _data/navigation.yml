@@ -6,7 +6,7 @@ main:
 labs:
   - title: Custom Labs
     children:
-      - title: "Lab 0. Setting up Environment"
-        url: /labs/a00-setting-up-enviroment/
+      - title: "Lab 0. Setting up the Environment"
+        url: /labs/a00-setting-up-the-environment/
       - title: "Lab 1. Network Protocol Attacks"
         url: /labs/a01-network-protocol-attacks/

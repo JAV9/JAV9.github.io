@@ -1,6 +1,6 @@
 ---
-title: "Lab 1. Network protocol attacks"
-excerpt: "In this lab, you’ll learn how to do different network protocol attacks."
+title: "Lab 1. Network Protocol attacks"
+excerpt: "In this lab, you’ll learn to perform and analyze several network protocol attacks across different layers of the OSI model, including ARP spoofing, ICMP flooding, Smurf attacks, TCP SYN floods, and network enumeration with Nmap."
 layout: single
 classes: toc-right
 author_profile: false
@@ -16,10 +16,17 @@ tags:
   - arp
   - spoofing
   - nmap
+  - network-security
+  - pentesting
+  - ethical-hacking
+  - cybersecurity
+  - linux-tools
+  - man-in-the-middle
+  - recon
 ---
-## Enviroment
+## Environment
 
-This lab builds upon the environment setup from [Lab 0. Environment setup](/labs/a00-setting-up-enviroment/). All attacks will be launched from **VM_2**.
+This lab builds upon the environment setup from [Lab 0. Environment setup](/labs/a00-setting-up-enviroment/). All attacks will be launched from **VM_2**, unless stated otherwise.
 
 > **Warning:** While Wireshark is extremely useful for analyzing network traffic, it’s not recommended to run it during *flood* attacks due to the high volume of packets it will attempt to capture. This can cause performance issues or even crash the interface.
 
@@ -33,15 +40,17 @@ This lab builds upon the environment setup from [Lab 0. Environment setup](/labs
 
 #### What is ARP Spoofing?
 
-The Address Resolution Protocol (ARP) maps IP addresses to MAC (hardware) addresses in local networks. ARP spoofing exploits the lack of authentication in this process: an attacker can send forged ARP responses to mislead devices about the MAC address of other machines on the network. This allows the attacker to intercept, modify, or block traffic—effectively performing a **Man-in-the-Middle (MitM)** attack.
+The Address Resolution Protocol (ARP) maps IP addresses to MAC addresses in local networks. ARP spoofing takes advantage of the fact that ARP has **no authentication**: attackers can send forged ARP responses, tricking devices into associating the wrong MAC address with a given IP.
 
-#### Objective
+This enables **Man-in-the-Middle (MitM)** attacks, traffic interception, or even denial of service.
 
-We’ll trick two machines on the network (typically a victim and its default gateway) into thinking that **VM_2** is the other party. This allows us to intercept all traffic between them.
+#### Goal
+
+Convince both the victim and the gateway that **VM_2** is the other party, so all their traffic is routed through VM_2.
 
 #### Step 1: Enable IP Forwarding on VM_2
 
-To avoid breaking communication between the victim and the gateway (which would turn this into a DoS attack), we need to enable IP forwarding so VM_2 can relay packets:
+Without IP forwarding, the victim’s traffic won’t reach the gateway, effectively creating a DoS attack. Enable forwarding on VM_2:
 
 ```bash
 sudo sysctl -w net.ipv4.ip_forward=1
@@ -57,7 +66,7 @@ We’ll use the `arpspoof` tool from the `dsniff` package to carry out the attac
 sudo apt install dsniff
 ```
 
-Now launch the attack from **VM_2** with:
+Now launch the attack from **VM_2** (example for victim `192.168.0.3` and gateway `192.168.0.1`) with:
 
 ```bash
 sudo arpspoof -t 192.168.0.1 -r 192.168.0.3
@@ -97,6 +106,11 @@ You should now see packets flowing *through* VM_2, even though VM_2 is not the i
   <summary>Example screenshot (click to expand)</summary>
     <img src="/assets/images/a01-arpspoof.png" />
 </details>
+#### What to expect:
+
+- The ARP tables on both victim and gateway now list VM_2’s MAC for the other host’s IP.
+- Wireshark on VM_2 shows packets flowing between victim and gateway, even though VM_2 is not the intended destination.
+
 
 
 ## Network Layer
@@ -107,9 +121,9 @@ You should now see packets flowing *through* VM_2, even though VM_2 is not the i
 
 An ICMP flood—commonly known as a ping flood—is a type of **Denial of Service (DoS)** attack. It overwhelms the target system by sending a large number of ICMP Echo Request (ping) packets, consuming its bandwidth and processing power.
 
-#### Objective
+#### Goal
 
-We’ll use `hping3` to send a flood of ICMP packets from **VM_2** to the victim (typically **VM_1** or the router), simulating a DoS attack.
+We’ll use `hping3` to send a flood of ICMP packets from **VM_2** to the victim (typically the router), simulating a DoS attack.
 
 #### Step 1: Start the Attack from VM_2
 
@@ -145,7 +159,10 @@ sudo hping3 --icmp --flood 192.168.0.1
   <summary>Example screenshot (click to expand)</summary>
     <img src="/assets/images/a01-icmp-flood.png" />
 </details>
+#### What to expect:
 
+- The victim’s network interface statistics (`ip -s link`) show rapidly increasing RX packet counts.
+- If bandwidth is limited, the victim may become noticeably slower or unresponsive to pings.
 
 
 
@@ -179,6 +196,11 @@ sudo hping3 --icmp --flood --spoof 192.168.0.1 192.168.0.255
   <summary>Example screenshot (click to expand)</summary>
     <img src="/assets/images/a01-smurf-attack.png" />
 </details>
+#### What to expect:
+
+- Multiple hosts on the subnet send ICMP Echo Replies to the victim.
+- The victim’s CPU/network usage spikes dramatically.
+
 
 
 ## Transport Layer
@@ -267,14 +289,143 @@ sudo nft flush ruleset
         After disabling SYN Cookies you should see that you can't connect the server.
     </p>
 </details>
+#### What to expect:
+
+- On VM_1, `ss -tan` shows many connections in `SYN_RECV` state.
+- Requests from VM_3 may hang or fail due to resource exhaustion.
+- With SYN cookies disabled, the attack’s effect becomes even more pronounced.
+
 
 
 ## Network enum
 
-### System discovery
+Network enumeration is the process of discovering active devices, open ports, running services, and operating systems in a network. In this section, we'll use **nmap** to perform host discovery, port scanning, service detection, and OS fingerprinting.
+
+> Since the results are easy to see, I won’t be adding example screenshots. Try playing with options like `--reason` and experiment a bit!
+>
+> 
+>
+> For additional references you should also consult
+>
+> [Nmap Book](https://nmap.org/book/toc.html)
+>
+> [Nmap Manual](https://nmap.org/book/man.html)
+
+### Host discovery
+
+#### What is Host Discovery?
+
+Host discovery identifies active devices in a network, typically by sending ICMP Echo Requests (ping). Other methods include ARP requests, TCP probes, UDP probes, and DNS queries.
+
+#### Goal
+
+Discover all active systems in the local network
+
+#### Step 1: Run Host Discovery Scan
+
+```bash
+sudo nmap -sn 192.168.0.0/24
+```
+
+This will send probes to the entire /24 subnet and report which hosts are online.
+
+#### What to expect:
+
+- A list of active hosts in the subnet, showing their IP addresses and possibly their MAC addresses.
+
+
 
 ### Port scanning
 
+#### What is Port Scanning?
+
+Port scanning checks which TCP or UDP ports are open, closed, or filtered. Different scan types determine state in different ways.
+
+#### Goal
+
+Identify open ports on **VM_1**.
+
+#### Step 1: Start some services con VM_1
+
+```bash
+sudo systemctl start apache2 tinyproxy
+```
+
+#### Step 2: Run different scan types from VM_2
+
+```bash
+sudo nmap -sS 192.168.0.1	# TCP SYN scan
+nmap -sT 192.168.0.1		# TCP Connect scan
+sudo nmap -sF 192.168.0.1	# TCP FIN scan
+sudo nmap -sA 192.168.0.1	# TCP ACK scan
+```
+
+* `-sS`: Stealth SYN scan (default with root privileges).
+* `-sT`: TCP connect scan (default without privileges).
+* `-sF`: Sends TCP FIN packets; open ports won’t respond.
+* `-sA`: ACK scan to detect firewall rules.
+
+Although we can also:
+
+* Limit ports with `-p` (`-p 22, 80, 443'`or ranges like `-p 1-1000`).
+* Use `--reason`to see why Nmap classifies a port as it does.
+* Use `--packet-trace`to see all exchanged packets.
+
+#### What to expect:
+
+- Open ports are listed with their state (open/closed/filtered).
+- Service banners may appear for some ports even without service detection.
+
+
+
 ### Service detection
 
-## SO detection
+#### What is Service detection?
+
+Service detection queries open ports to identify the actual service, protocol, application name, version, OS, or device type.
+
+#### Step 1: Run Service Detection Scan
+
+```bash
+nmap -sV 192.168.0.1
+```
+
+This will reveal information like:
+
+* Protocol (FTP, SSH, HTTP, etc.)
+* Application (Apache httpd, OpenSSH, etc.)
+* Version number
+
+#### What to expect:
+
+- Identified services (e.g., Apache httpd, OpenSSH) and their version numbers.
+
+
+
+## OS detection
+
+#### What is OS detection?
+
+OS detection sends a series of TCP/UDP probes, analyzing responses for:
+
+* TCP option support and order
+* Initial window size
+* TTL
+* Other low-level TCP/IP characteristics
+
+It then compares the fingerprint with Nmap's database (`/usr/share/nmap/nmap-os-db`).
+
+#### Step 1: Run OS detection
+
+```bash
+sudo nmap -O 192.168.0.1
+```
+
+An OS guess with a confidence percentage.
+
+Possible device type (e.g., router, general-purpose host).
+
+#### What to expect:
+
+- An OS guess with a confidence percentage.
+- Possible device type (e.g., router, general-purpose host).
