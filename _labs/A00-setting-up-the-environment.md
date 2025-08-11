@@ -1,5 +1,5 @@
 ---
-title: "Lab 0. Setting up the environment"
+title: "Lab 0. Setting up the Environment"
 excerpt: "In this post you can learn how to set up the environment for our custom labs."
 layout: single
 collection: labs
@@ -21,7 +21,7 @@ tags:
 ---
 
 ## How-to
-This post is about setting up the environment needed for our projects. You're free to modify it in future projects however you like — this will simply serve as a **base configuration** we can build upon. In upcoming posts, we’ll discuss any changes to the environment as needed.
+This post is about setting up the environment needed for our custom labs. You're free to modify it in future projects however you like — this will simply serve as a **base configuration** we can build upon. In upcoming posts, we’ll discuss any changes to the environment as needed.
 
 You can choose whichever tools you feel most comfortable with. However, since this is a guided project, I'll be showing the ones I’ve chosen:
 

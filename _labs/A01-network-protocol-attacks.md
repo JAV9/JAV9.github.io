@@ -26,7 +26,7 @@ tags:
 ---
 ## Environment
 
-This lab builds upon the environment setup from [Lab 0. Environment setup](/labs/a00-setting-up-environment/). All attacks will be launched from **VM_2**, unless stated otherwise.
+This lab builds upon the environment setup from [Lab 0. Setting up the environment](/labs/a00-setting-up-environment/). All attacks will be launched from **VM_2**, unless stated otherwise.
 
 > **Warning:** While Wireshark is extremely useful for analyzing network traffic, it’s not recommended to run it during *flood* attacks due to the high volume of packets it will attempt to capture. This can cause performance issues or even crash the interface.
 
