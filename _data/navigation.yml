@@ -10,3 +10,5 @@ labs:
         url: /labs/a00-setting-up-the-environment/
       - title: "Lab 1. Network Protocol Attacks"
         url: /labs/a01-network-protocol-attacks/
+      - title: "Lab 2. Stateful Packet Inspection and Web Proxy"
+        url: /labs/a02-nftables/
